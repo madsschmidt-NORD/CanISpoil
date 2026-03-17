@@ -22,7 +22,7 @@ export default function HomePage() {
           <p className="text-sm uppercase tracking-[0.3em] text-white/40">The internet’s least official authority</p>
           <h2 className="mt-4 text-5xl font-semibold leading-none tracking-tight md:text-7xl">Can I spoil it?</h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-white/65 md:text-lg">
-            Skriv en titel. Vi vurderer, om kulturen er færdig med at beskytte den.
+            Skriv en titel. Vi vurderer, om kulturen er færdig med at beskytte den. Eller klik på et kort for at gå direkte til en aktuel spoiler-dom.
           </p>
 
           {!isConfigured ? (

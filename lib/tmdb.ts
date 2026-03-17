@@ -49,6 +49,7 @@ type TMDbSearchResult = {
 };
 
 type TMDbSearchResponse = { results: TMDbSearchResult[] };
+type TMDbTvListResponse = { results: Omit<TMDbSearchResult, "media_type">[] };
 
 type TMDbMovieDetails = {
   id: number;
@@ -161,6 +162,34 @@ export async function getTitleById(mediaType: "movie" | "tv", id: string): Promi
     overview: data.overview,
     platform: data.status
   };
+}
+
+
+
+export async function getPopularSpoilerSensitiveShows() {
+  const language = "en-US";
+  const popularParams = new URLSearchParams({ language, page: "1" });
+  const trendingParams = new URLSearchParams({ language });
+
+  const [popular, trending] = await Promise.all([
+    tmdbFetch<TMDbTvListResponse>("/tv/popular", popularParams),
+    tmdbFetch<TMDbTvListResponse>("/trending/tv/week", trendingParams)
+  ]);
+
+  const merged = [...popular.results, ...trending.results];
+  const unique = new Map<number, SearchItem>();
+
+  for (const result of merged) {
+    const normalized = normalizeSearchResult({
+      ...result,
+      media_type: "tv"
+    });
+
+    if (!normalized) continue;
+    unique.set(normalized.sourceId, normalized);
+  }
+
+  return Array.from(unique.values());
 }
 
 export function hasTmdbCredentials() {
