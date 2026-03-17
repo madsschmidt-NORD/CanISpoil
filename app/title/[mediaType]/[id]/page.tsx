@@ -5,18 +5,22 @@ import { getOmdbVotes } from "@/lib/omdb";
 import { getTitleById } from "@/lib/tmdb";
 
 export default async function TitlePage({
-  params
+  params,
+  searchParams
 }: {
   params: Promise<{ mediaType: string; id: string }>;
+  searchParams: Promise<{ season?: string }>;
 }) {
   const { mediaType, id } = await params;
+  const { season } = await searchParams;
 
   if (mediaType !== "movie" && mediaType !== "tv") {
     notFound();
   }
 
   try {
-    const item = await getTitleById(mediaType, id);
+    const seasonNumber = mediaType === "tv" && season ? Number(season) : undefined;
+    const item = await getTitleById(mediaType, id, Number.isFinite(seasonNumber) ? seasonNumber : undefined);
     const omdbVotes = await getOmdbVotes(item.imdbId);
     const enriched = omdbVotes ? { ...item, votes: omdbVotes } : item;
 

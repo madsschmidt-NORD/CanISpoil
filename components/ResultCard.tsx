@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { evaluateTitle } from "@/lib/spoiler";
 import { SearchItem } from "@/lib/types";
 
@@ -46,7 +47,22 @@ export default function ResultCard({ item }: { item: SearchItem }) {
           <div>
             <div className="text-sm uppercase tracking-[0.22em] text-white/40">CanISpoil ruling</div>
             <h2 className="mt-3 text-4xl font-semibold tracking-tight">{item.title}</h2>
-            <p className="mt-2 text-white/50">{item.year} · {item.mediaType === "movie" ? "Film" : "Serie"}</p>
+            <p className="mt-2 text-white/50">
+              {item.year} · {item.mediaType === "movie" ? "Film" : item.seasonNumber ? `Serie sæson ${item.seasonNumber}` : "Serie"}
+            </p>
+            {item.seasonNumber && item.availableSeasons && item.availableSeasons.length > 1 ? (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.availableSeasons.map((season) => (
+                  <Link
+                    key={season.seasonNumber}
+                    href={`/title/tv/${item.sourceId}?season=${season.seasonNumber}`}
+                    className={`rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.18em] transition ${season.seasonNumber === item.seasonNumber ? "border-[#8d98ff]/40 bg-[#5969ff]/12 text-[#d8dcff]" : "border-white/10 bg-white/5 text-white/65 hover:border-white/20 hover:bg-white/10"}`}
+                  >
+                    S{season.seasonNumber}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
             <div className={`mt-5 inline-flex rounded-full border px-4 py-2 text-sm font-medium ${verdictClasses[result.verdict]}`}>
               {result.verdict}
             </div>
@@ -59,6 +75,7 @@ export default function ResultCard({ item }: { item: SearchItem }) {
         {item.overview ? <p className="mb-8 max-w-3xl text-white/68">{item.overview}</p> : null}
 
         <div className="grid gap-4">
+          {item.seasonNumber ? <MetricRow label="Vurderet på" value={`Sæson ${item.seasonNumber}`} /> : null}
           <MetricRow label="Udgivet" value={formatDate(item.releaseDate)} />
           <MetricRow label="IMDb votes" value={item.votes.toLocaleString("en-US")} />
           <MetricRow label="Popularitet" value={result.popularityLabel} />

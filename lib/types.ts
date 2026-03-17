@@ -1,6 +1,13 @@
 export type TitleType = "movie" | "series" | "finale";
 export type MediaType = "movie" | "tv";
 
+export type SeasonInfo = {
+  seasonNumber: number;
+  name: string;
+  airDate: string;
+  episodeCount?: number;
+};
+
 export type SearchItem = {
   id: string;
   sourceId: number;
@@ -16,6 +23,10 @@ export type SearchItem = {
   platform?: string;
   imdbId?: string;
   overview?: string;
+  seasonNumber?: number;
+  seasonLabel?: string;
+  seriesTitle?: string;
+  availableSeasons?: SeasonInfo[];
 };
 
 export type Evaluation = {

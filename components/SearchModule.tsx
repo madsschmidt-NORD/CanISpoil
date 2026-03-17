@@ -62,7 +62,7 @@ export default function SearchModule() {
       <div className="mt-3 grid gap-2">
         {!query.trim() ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-5 text-sm text-white/52">
-            Start med en titel. Vi søger live i film og serier og giver dig en social spoiler-dom.
+            Start med en titel. Vi søger live i film og serier, og på serier vurderer vi seneste udsendte sæson som standard.
           </div>
         ) : loading ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-5 text-sm text-white/52">
@@ -88,7 +88,7 @@ export default function SearchModule() {
               <div className="min-w-0 flex-1">
                 <div className="truncate text-base font-medium">{item.title}</div>
                 <div className="mt-1 text-sm text-white/45">
-                  {item.mediaType === "movie" ? "Film" : "Serie"} · {item.year}
+                  {item.mediaType === "movie" ? "Film" : "Serie · seneste sæson som standard"} · {item.year}
                 </div>
               </div>
               <div className="text-sm text-white/35">→</div>

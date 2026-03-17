@@ -16,7 +16,8 @@ export default async function HeroWall() {
           >
             <div>
               <div className="text-[10px] uppercase tracking-[0.26em] text-[#b7bcff]/55">Max universe</div>
-              <div className="mt-2 text-sm font-medium leading-5 text-white/92 md:text-base">{tile.title}</div>
+              <div className="mt-2 text-sm font-medium leading-5 text-white/92 md:text-base">{tile.seriesTitle ?? tile.title}</div>
+              {tile.seasonNumber ? <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/52">Season {tile.seasonNumber}</div> : null}
               <div className="mt-3 inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[#dbe0ff]/75 group-hover:border-[#8d98ff]/30 group-hover:text-white">
                 {tile.verdict}
                 {tile.daysRemaining > 0 ? ` · ${tile.daysRemaining} dage tilbage` : ""}
